@@ -20,7 +20,7 @@ def load_regions() -> pd.DataFrame:
     regions = pd.DataFrame(responce_json['results'][0]['dict_rows'])[['rows_code', 'rows_name']]
     regions.rename(columns={'rows_code': 'code', 'rows_name': 'region_name'}, inplace=True)
     
-    return regions
+    return regions[regions['code'] != '1100']
 
 
 if __name__ == '__main__':
