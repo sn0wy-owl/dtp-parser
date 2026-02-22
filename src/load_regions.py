@@ -1,6 +1,12 @@
 import requests
 import pandas as pd
+from tenacity import retry, stop_after_attempt, wait_exponential
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, max=10),
+    reraise=True
+)
 def load_regions() -> pd.DataFrame:
     '''
     Получает справочник регионов с сайта ГИБДД

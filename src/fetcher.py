@@ -1,7 +1,13 @@
 import requests
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from src.config import BASE_URL
 
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, max=10),
+    reraise=True
+)
 def fetch_data(year: int, month: int, code: int) -> dict:
     '''
     Загрузка данных с сайта ГИБДД и чтение json ответа

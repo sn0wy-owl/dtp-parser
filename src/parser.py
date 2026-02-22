@@ -3,7 +3,14 @@ from typing import Union
 
 def parse_data(data: dict) -> Union[pd.DataFrame, None]:
     try:
-        dtp_cards = data['results']['region_list'][0]['pok_list'][0]['result'][0]['dtpcardlist']['info_dtp']
+        dtp_cards = (
+            data.get('results', [{}])[0]
+                  .get('region_list', [{}])[0]
+                  .get('pok_list', [{}])[0]
+                  .get('result', [{}])[0]
+                  .get('dtpcardlist', {})
+                  .get('info_dtp', [])
+        )
     except Exception as e:
         return None
 
