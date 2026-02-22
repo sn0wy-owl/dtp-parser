@@ -4,7 +4,7 @@ from typing import Union
 def parse_data(data: dict) -> Union[pd.DataFrame, None]:
     try:
         dtp_cards = (
-            data.get('results', [{}])[0]
+            data.get('results', {})
                   .get('region_list', [{}])[0]
                   .get('pok_list', [{}])[0]
                   .get('result', [{}])[0]

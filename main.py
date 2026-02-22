@@ -10,8 +10,10 @@ import requests
 from src.load_regions import load_regions
 from src.fetcher import fetch_data
 from src.parser import parse_data
+from src.utils import partition_exists, remove_partiton, should_rewrite
 
 from src.config import years, months, output_path
+import src.config as config
 
 
 # Настройка логирования
@@ -43,58 +45,77 @@ def main():
     total_requests = len(years) * len(months) * len(regions)
     log.info(f"Начинаем загрузку: {total_requests} запросов")
 
-    for year in years:
-        for month in months:
-            month_dfs: List[pd.DataFrame] = []
+    try:
+        for year in years:
+            for month in months:
+                if partition_exists(output_path, year, month, log):
+                    log.info(f'Найдены данные за {month:02d}.{year}')
+                
+                    if should_rewrite(year, month):
+                        log.warning(f'Удаляем старые данные за {month:02d}.{year}')
+                        remove_partiton(output_path, year, month, log)
+                    else:
+                        log.info(f'Пропускаем {month:02d}.{year}')
+                        continue
 
-            parsed_region = 0
-            error_parse = 0
-            error_regions = []
+                month_dfs: List[pd.DataFrame] = []
 
-            placeholder = f'Загрзука регионов за {month:02d}.{year}'
+                parsed_region = 0
+                error_parse = 0
+                error_regions = []
 
-            for region_code in tqdm(regions['code'].tolist(), desc=placeholder, leave=False):
-                try:
-                    # Получение ответа от сервера ГИБДД
-                    load_data = fetch_data(year, month, region_code)
-                    # Обработка ответа
-                    parsed_data = parse_data(load_data)
-                    if parsed_data is not None and not parsed_data.empty:
-                        parsed_data['year'] = year
-                        parsed_data['month'] = month
-                        month_dfs.append(parsed_data)
-                        parsed_region += 1
-                    
-                except (requests.RequestException, TimeoutError) as e:
-                    error_parse += 1
-                    error_regions.append(region_code)
-                    log.debug(f'Ошибка запроса: {year}-{month}, регион {region_code}: {e}')
-                except (KeyError, TypeError, IndexError) as e:
-                    error_parse += 1
-                    error_regions.append(region_code)
-                    log.debug(f'Ошибка парсинга: {year}-{month}, регион {region_code}: {e}')
-                except Exception as e:
-                    error_parse += 1
-                    error_regions.append(region_code)
-                    log.debug(f'Неизвестная ошибка: {year}-{month}, регион {region_code}: {e}')
+                placeholder = f'Загрзука регионов за {month:02d}.{year}'
 
-
-            log.info(f'Успешно: {parsed_region}, ошибок: {error_parse} ({", ".join(error_regions)})')
-            log.info(f'Сохранение данных за {month:02d}.{year}')
-
-            if month_dfs:
-                combined_month = pd.concat(month_dfs, ignore_index=True)
-                combined_month.to_parquet(
-                    output_path,
-                    partition_cols=['year', 'month'],
-                    engine='pyarrow',
-                    compression='snappy',
-                    index=False
-                )
-                log.info(f'Сохранено: {year}-{month:02d} | {len(combined_month)} записей')
-            
-    log.info('✅ Загрузка завершена')
+                for region_code in tqdm(regions['code'].tolist(), desc=placeholder, leave=False):
+                    try:
+                        # Получение ответа от сервера ГИБДД
+                        load_data = fetch_data(year, month, region_code)
+                        # Обработка ответа
+                        parsed_data = parse_data(load_data)
+                        if parsed_data is not None and not parsed_data.empty:
+                            parsed_data['year'] = year
+                            parsed_data['month'] = month
+                            month_dfs.append(parsed_data)
+                            parsed_region += 1
+                        
+                    except (requests.RequestException, TimeoutError) as e:
+                        error_parse += 1
+                        error_regions.append(region_code)
+                        log.debug(f'Ошибка запроса: {month:02d}.{year}, регион {region_code}: {e}')
+                    except (KeyError, TypeError, IndexError) as e:
+                        error_parse += 1
+                        error_regions.append(region_code)
+                        log.debug(f'Ошибка парсинга: {month:02d}.{year}, регион {region_code}: {e}')
+                    except Exception as e:
+                        error_parse += 1
+                        error_regions.append(region_code)
+                        log.debug(f'Неизвестная ошибка: {month:02d}.{year}, регион {region_code}: {e}')
 
 
-if __name__ == "__main__":
+                log.info(f'Успешно: {parsed_region}, ошибок: {error_parse} ({", ".join(error_regions)})')
+                log.info(f'Сохранение данных за {month:02d}.{year}')
+
+                if month_dfs:
+                    combined_month = pd.concat(month_dfs, ignore_index=True)
+                    combined_month.to_parquet(
+                        output_path,
+                        partition_cols=['year', 'month'],
+                        engine='pyarrow',
+                        compression='snappy',
+                        index=False
+                    )
+                    log.info(f'Сохранено: {len(combined_month)} записей')
+                
+        log.info('✅ Загрузка завершена')
+    
+
+    except KeyboardInterrupt:
+        log.warning('🛑 Остановлено пользователем (Ctrl+C)')
+        sys.exit(0)
+    except Exception as e:
+        log.critical(f'Критическая ошибка: {e}')
+        sys.exit(1)
+
+
+if __name__ == '__main__':
     main()
