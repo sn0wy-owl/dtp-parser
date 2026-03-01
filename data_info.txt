@@ -1,0 +1,468 @@
+{
+    "status": 200,
+    "request": null,
+    "id": "3",
+    "entityname": "kartdtp",
+    "results": [
+        {
+            "name": "status",
+            "caption": "Статус выполнения запроса: 200,400,404,500",
+            "type": "INTEGER",
+            "subcolumns": null
+        },
+        {
+            "name": "request",
+            "caption": "Параметры запрошенных данных",
+            "type": "ARRAY[OBJECT]",
+            "subcolumns": [
+                {
+                    "name": "dat",
+                    "caption": "Период запрошенных данных (дата в формате м.гггг или мм.гггг)",
+                    "type": "STRING",
+                    "subcolumns": null
+                },
+                {
+                    "name": "reg",
+                    "caption": "Код региона РФ из справочника «Регионы Российской Федерации»",
+                    "type": "STRING",
+                    "subcolumns": null
+                },
+                {
+                    "name": "pok",
+                    "caption": "Код показателя аварийности из справочника «Показатели аварийности»",
+                    "type": "STRING",
+                    "subcolumns": null
+                }
+            ]
+        },
+        {
+            "name": "id",
+            "caption": "Идентификационный номер набора данных",
+            "type": "INTEGER",
+            "subcolumns": null
+        },
+        {
+            "name": "entityname",
+            "caption": "Идентификатор (абстрактное наименование) набора данных",
+            "type": "STRING",
+            "subcolumns": null
+        },
+        {
+            "name": "results",
+            "caption": "Данные набора данных",
+            "type": "ARRAY[OBJECT]",
+            "subcolumns": [
+                {
+                    "name": "date",
+                    "caption": "Период запрошенных данных",
+                    "type": "STRING",
+                    "subcolumns": null
+                },
+                {
+                    "name": "region_list",
+                    "caption": "Список регионов РФ",
+                    "type": "ARRAY[OBJECT]",
+                    "subcolumns": [
+                        {
+                            "name": "reg_code",
+                            "caption": "Код региона РФ",
+                            "type": "INTEGER",
+                            "subcolumns": null
+                        },
+                        {
+                            "name": "reg_name",
+                            "caption": "Наименование региона РФ",
+                            "type": "STRING",
+                            "subcolumns": null
+                        },
+                        {
+                            "name": "pok_list",
+                            "caption": "Список значений показателей аварийности",
+                            "type": "ARRAY[OBJECT]",
+                            "subcolumns": [
+                                {
+                                    "name": "pok_code",
+                                    "caption": "Код показателя (предоставляется при отсутствии параметра dor)",
+                                    "type": "INTEGER",
+                                    "subcolumns": null
+                                },
+                                {
+                                    "name": "pok_name",
+                                    "caption": "Наименование показателя (предоставляется при отсутствии параметра dor)",
+                                    "type": "STRING",
+                                    "subcolumns": null
+                                },
+                                {
+                                    "name": "result",
+                                    "caption": "Данные набора данных по параметрам",
+                                    "type": "ARRAY[OBJECT]",
+                                    "subcolumns": [
+                                        {
+                                            "name": "countcard",
+                                            "caption": "Количество карточек ДТП",
+                                            "type": "INTEGER",
+                                            "subcolumns": null
+                                        },
+                                        {
+                                            "name": "pog_v",
+                                            "caption": "Число погибших по всем найденным карточкам ДТП",
+                                            "type": "INTEGER",
+                                            "subcolumns": null
+                                        },
+                                        {
+                                            "name": "ran_v",
+                                            "caption": "Число раненых по всем найденным карточкам ДТП",
+                                            "type": "INTEGER",
+                                            "subcolumns": null
+                                        },
+                                        {
+                                            "name": "dtpcardlist",
+                                            "caption": "Cписок карточек ДТП",
+                                            "type": "ARRAY[OBJECT]",
+                                            "subcolumns": [
+                                                {
+                                                    "name": "info_dtp",
+                                                    "caption": "Сведения о карточке ДТП",
+                                                    "type": "ARRAY[OBJECT]",
+                                                    "subcolumns": [
+                                                        {
+                                                            "name": "empt_number",
+                                                            "caption": "Номер ДТП",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "date_dtp",
+                                                            "caption": "Дата ДТП",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "time",
+                                                            "caption": "Время ДТП",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "coord_w",
+                                                            "caption": "Широта",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "coord_l",
+                                                            "caption": "Долгота",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "dtpv",
+                                                            "caption": "Вид ДТП",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "k_ts",
+                                                            "caption": "Количество ТС в ДТП",
+                                                            "type": "INTEGER",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "k_uch",
+                                                            "caption": "Количество участников ДТП",
+                                                            "type": "INTEGER",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "pog",
+                                                            "caption": "Число погибших в ДТП",
+                                                            "type": "INTEGER",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "ran",
+                                                            "caption": "Число раненых в ДТП",
+                                                            "type": "INTEGER",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "s_dtp",
+                                                            "caption": "Схема ДТП",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "district",
+                                                            "caption": "Адрес(Район)",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "house",
+                                                            "caption": "Дом",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "km",
+                                                            "caption": "Километр",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "m",
+                                                            "caption": "Метр",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "np",
+                                                            "caption": "Населенный пункт",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "street",
+                                                            "caption": "Улица",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "dor",
+                                                            "caption": "Наименование дороги",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "dor_z",
+                                                            "caption": "Значение дороги",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "dor_k",
+                                                            "caption": "Категория дороги",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "k_ul",
+                                                            "caption": "Категория улицы",
+                                                            "type": "STRING",
+                                                            "subcolumns": null
+                                                        },
+                                                        {
+                                                            "name": "dor_usl",
+                                                            "caption": "Дорожные условия",
+                                                            "type": "ARRAY[OBJECT]",
+                                                            "subcolumns": [
+                                                                {
+                                                                    "name": "sdor",
+                                                                    "caption": "Объекты УДС на месте ДТП",
+                                                                    "type": "ARRAY[STRING]",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "obj_dtp",
+                                                                    "caption": "Объекты УДС вблизи места совершения ДТП",
+                                                                    "type": "ARRAY[STRING]",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "ndu",
+                                                                    "caption": "Недостатки транспортно-эксплуатационного содержания",
+                                                                    "type": "ARRAY[STRING]",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "factor",
+                                                                    "caption": "Фактор влияющий на режим движения ",
+                                                                    "type": "ARRAY[STRING]",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "spog",
+                                                                    "caption": "Состояние погоды",
+                                                                    "type": "ARRAY[STRING]",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "s_pch",
+                                                                    "caption": "Состояние проезжей части",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "osv",
+                                                                    "caption": "Освещение",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "chom",
+                                                                    "caption": "Изменения в режиме движения",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "ts_info",
+                                                            "caption": "Информация о тс",
+                                                            "type": "ARRAY[OBJECT]",
+                                                            "subcolumns": [
+                                                                {
+                                                                    "name": "n_ts",
+                                                                    "caption": "Номер ТС",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "ts_s",
+                                                                    "caption": "Сведения об оставлении ТС места ДТП",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "t_ts",
+                                                                    "caption": "Тип ТС",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "m_ts",
+                                                                    "caption": "Модель ТС",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "marka_ts",
+                                                                    "caption": "Марка ТС",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "color",
+                                                                    "caption": "Цвет ТС",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "m_pov",
+                                                                    "caption": "Места повреждения",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "t_n",
+                                                                    "caption": "Технические неисправности",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "r_rul",
+                                                                    "caption": "Расположение руля, тип привода",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "g_v",
+                                                                    "caption": "Год выпуска",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "o_pf",
+                                                                    "caption": "Форма собственности",
+                                                                    "type": "STRING",
+                                                                    "subcolumns": null
+                                                                },
+                                                                {
+                                                                    "name": "ts_uch",
+                                                                    "caption": "Инфо об участнике находящемся в ТС",
+                                                                    "type": "ARRAY[OBJECT]",
+                                                                    "subcolumns": [
+                                                                        {
+                                                                            "name": "n_uch",
+                                                                            "caption": "Номер участника",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "kt_uch",
+                                                                            "caption": "Категория участника",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "s_sm",
+                                                                            "caption": "Сведения, скрылся ли участник с места ДТП",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "pol",
+                                                                            "caption": "Пол",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "s_t",
+                                                                            "caption": "Степень тяжести последствий",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "npdd",
+                                                                            "caption": "Непосредственное наружение ПДД",
+                                                                            "type": "ARRAY[STRING]",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "sop_npdd",
+                                                                            "caption": "Сопутствующее нарушение ПДД",
+                                                                            "type": "ARRAY[STRING]",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "safety_belt",
+                                                                            "caption": "Сведения о пристегивании",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "s_seat_group",
+                                                                            "caption": "Тип детского удерживающего устройства",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "alco",
+                                                                            "caption": "Cтепень опьянения",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        },
+                                                                        {
+                                                                            "name": "v_st",
+                                                                            "caption": "Водительский стаж",
+                                                                            "type": "STRING",
+                                                                            "subcolumns": null
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

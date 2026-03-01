@@ -10,9 +10,10 @@ import requests
 from src.load_regions import load_regions
 from src.fetcher import fetch_data
 from src.parser import parse_data
-from src.utils import partition_exists, remove_partiton, should_rewrite
+from src.utils import partition_exists, remove_partition, should_rewrite, remove_partitioned_data
+from src.transform_data import transform_data
 
-from src.config import years, months, output_path
+from src.config import years, months, output_path, transform_path
 import src.config as config
 
 
@@ -53,7 +54,7 @@ def main():
                 
                     if should_rewrite(year, month):
                         log.warning(f'Удаляем старые данные за {month:02d}.{year}')
-                        remove_partiton(output_path, year, month, log)
+                        remove_partition(output_path, year, month, log)
                     else:
                         log.info(f'Пропускаем {month:02d}.{year}')
                         continue
@@ -116,6 +117,12 @@ def main():
         log.critical(f'Критическая ошибка: {e}')
         sys.exit(1)
 
+    # Обработка данных
+    log.info('Начало обработки данных')
+    remove_partitioned_data(transform_path, log)
+    transform_data(output_path, log)
+
+    log.info('Обработка данных завершена')
 
 if __name__ == '__main__':
     main()

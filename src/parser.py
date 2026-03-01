@@ -1,6 +1,8 @@
 import pandas as pd
 from typing import Union
 
+from src.utils import get_health_status
+
 def parse_data(data: dict) -> Union[pd.DataFrame, None]:
     try:
         dtp_cards = (
@@ -38,22 +40,46 @@ def parse_data(data: dict) -> Union[pd.DataFrame, None]:
             # информация об участниках
             for participant in dtp_card.get('ts_info', []):
                 participant_info = base_info.copy()
-                participant_info['car_mark'] = participant['marka_ts']
-                participant_info['car_model'] = participant['m_ts']
-                participant_info['color'] = participant['color']
-                participant_info['car_year'] = participant['g_v']
+                participant_info['car_mark'] = participant.get('marka_ts', '')
+                participant_info['car_model'] = participant.get('m_ts', '')
+                participant_info['color'] = participant.get('color', '')
+                participant_info['car_year'] = participant.get('g_v', '')
+
+                death_count = 0
+                wounded_count = 0
+                passenger_count = 0
 
                 # информация о водителе
                 for passenger in participant.get('ts_uch', []):
-                    if passenger['kt_uch'] == 'Водитель':
-                        participant_info['driver_gender'] = passenger['pol']
-                        participant_info['driver_exp'] = passenger['v_st']
-                        participant_info['driver_safety_belt'] = passenger['safety_belt']
-                        participant_info['driver_alco'] = passenger['alco']
-                        participant_info['driver_trauma'] = passenger['s_t']
-                        participant_info['driver_violations'] = passenger['npdd']
-                    
-                        parsed_info.append(participant_info)
+                    if passenger.get('kt_uch', '') == 'Водитель':
+                        participant_info['driver_gender'] = passenger.get('pol', '')
+                        participant_info['driver_exp'] = passenger.get('v_st', '')
+                        participant_info['driver_safety_belt'] = passenger.get('safety_belt', '')
+                        participant_info['driver_alco'] = passenger.get('alco', '')
+                        participant_info['driver_violations'] = passenger.get('npdd', '')
+
+                        driver_trauma = passenger.get('s_t', '')
+                        driver_trauma_clear = get_health_status(driver_trauma)
+
+                        if driver_trauma_clear == 'Скончался':
+                            death_count += 1
+                        elif driver_trauma_clear == 'Раненый':
+                            wounded_count += 1
+                    else:
+                        passenger_count += 1
+
+                        passenger_trauma = passenger.get('s_t', '')
+                        passenger_trauma_clear = get_health_status(passenger_trauma)
+
+                        if passenger_trauma_clear == 'Скончался':
+                            death_count += 1
+                        elif passenger_trauma_clear == 'Раненый':
+                            wounded_count += 1
+
+                participant_info['passenger_count'] = passenger_count
+                participant_info['death_count'] = death_count
+                participant_info['wounded_count'] = wounded_count
+                parsed_info.append(participant_info)
 
         except Exception as e:
             error_parse += 1

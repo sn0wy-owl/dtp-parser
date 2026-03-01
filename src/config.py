@@ -6,5 +6,6 @@ months = range(1, 13)
 BASE_URL = 'http://стат.гибдд.рф/opendataapi/v1/kartdtp/rows?'
 
 output_path = Path('data/all_accidents.parquet')
+transform_path = Path('data/all_accidents_transform.parquet')
 
 rewrite_all = None
